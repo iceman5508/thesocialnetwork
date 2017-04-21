@@ -14,7 +14,6 @@ class MessageInterface(ServerInterface):
     messages.
     '''
 
-
     def __init__(self, user_id):
         """
         Like every other interface class in 
@@ -28,9 +27,6 @@ class MessageInterface(ServerInterface):
         self.uid = user_id
         self.messages = list()
         self.get_all_messages()
-        
-        
-        
     
     def get_all_messages(self):
         """
@@ -38,15 +34,14 @@ class MessageInterface(ServerInterface):
         f none found return none
         """
         
-        server_response  = {}
+        server_response = {}
         for message in server_response:
             if self.uid in message['owners']:
                 self.messages.append(message)
             else:
                 return None
         return None
-            
-    
+
     def get_message_with(self, uid): 
         """
         returns message with a specific user
@@ -59,7 +54,6 @@ class MessageInterface(ServerInterface):
                 return None
         return None
     
-    
     def get_message(self, id):
         """
         returns message with a specific id
@@ -70,8 +64,7 @@ class MessageInterface(ServerInterface):
                 return message
         return None
     
-    
-    def post_message(self, to, subject, body):
+    def send_message(self, to, subject, body):
         """
         post/send a message towards another user
         the message should take the form:
@@ -85,8 +78,8 @@ class MessageInterface(ServerInterface):
         }        
         """
         content = {'owners': [self.uid, to], 'id': 1, 
-                   'sender' : self.uid, 'timestamp': datetime.now(),
-                   'subject': subject, 'body' : [body] }
+                   'sender': self.uid, 'timestamp': datetime.now(),
+                   'subject': subject, 'body': [body]}
         return content
         
         #add message to server
@@ -97,8 +90,8 @@ class MessageInterface(ServerInterface):
         """
         
         message = self.get_message(id)
-        content = {'sender' : self.uid, 'timestamp': datetime.now(), 
-                   'body' : body }
+        content = {'sender': self.uid, 'timestamp': datetime.now(),
+                   'body': body}
         message['body'].append(content)
         
         #update message on server
@@ -113,16 +106,12 @@ class MessageInterface(ServerInterface):
                 del m_id
                 #update messgae on server
         del message 
-                
-        
-    
+
     def edit_message(self, id, content):
         pass
-    
-    
+
     def get_id(self):
-        pass   
-    
+        pass
     
     def rate_post(self):
         pass
@@ -130,11 +119,9 @@ class MessageInterface(ServerInterface):
     def post_id(self,id):
         pass
         
-    
-        
 if __name__ == "__main__":
     user = MessageInterface(1) 
-    print user.post_message(2, "Yo", "hi nice to meet you 2")
+    print user.send_message(2, "Yo", "hi nice to meet you 2")
              
         
         

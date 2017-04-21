@@ -1,6 +1,8 @@
 import abc
 
+
 class ServerInterface:
+
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
@@ -8,13 +10,23 @@ class ServerInterface:
         pass
 
     @abc.abstractmethod
-    def post_message(self, to, subject, body):
+    def get_posts(self, limit, tag):
         pass
 
     @abc.abstractmethod
-    def edit_message(self, id, content):
+    def send_message(self, to, subject, body):
         pass
 
+    @abc.abstractmethod
+    def post_status(self, uid, content, token):
+        pass
+
+    @abc.abstractmethod
+    def edit_post(self, uid, token, postid, content):
+        pass
+    @abc.abstractmethod
+    def delete_post(self, uid, token, postid):
+        pass
     @abc.abstractmethod
     def post_id(self,id):
         pass
