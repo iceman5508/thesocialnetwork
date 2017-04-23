@@ -8,7 +8,7 @@ class UserData(ServerInterface):
     This class stores the user data and has functions that let's the user
     interact with the access to his account.
     """
-
+    
     def __init__(self):
         # The data will be stored in a dictionary in the object.
 
@@ -93,6 +93,22 @@ class UserData(ServerInterface):
                 return 'Invalid Token'
         else:
             return 'Error'
+    
+    def get_user(self, username):
+        """
+        Grabs a specific user based on the username
+        given
+        
+        :param username: name of the user requested
+        :return: returns the user information
+        """
+        response = requests.get(self.base_url + '/users', data={'username': username})
+        if response.status_code is 200:
+            return json.loads(response.text)
+        else:
+            return None
+       
+        
 
     def get_message(self, id):
         pass
@@ -107,6 +123,19 @@ class UserData(ServerInterface):
         pass
 
     def rate_post(self):
+        pass
+    
+    def delete_post(self):
+        pass
+    
+    def edit_post(self):
+        pass
+    def get_posts(self):
+        pass
+    def post_status(self):
+        pass 
+    
+    def send_message(self):
         pass
 
 
