@@ -3,7 +3,7 @@ Created on Apr 22, 2017
 
 @author: isaac
 '''
-from controls.user_login import UserData
+from user_login import UserData
 
 class GlobalData():
     """
