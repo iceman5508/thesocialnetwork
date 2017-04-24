@@ -10,7 +10,7 @@ class ServerInterface:
         pass
 
     @abc.abstractmethod
-    def get_posts(self, limit, tag):
+    def get_posts(self):
         pass
 
     @abc.abstractmethod
