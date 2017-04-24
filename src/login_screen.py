@@ -1,66 +1,6 @@
 from kivy.app import App
-from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen, ScreenManager
 from user_login import UserData
-
-Builder.load_string("""
-<LoginScreen>
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: 'Login information'
-        TextInput:
-            id: username
-            text: 'Enter username here'
-        TextInput:
-            id: uid
-            text: 'Enter your id here'
-        TextInput:
-            id: token
-            text: 'Enter your token here'
-        Button:
-            id: login
-            text: 'Submit'
-            on_release: root.user_login(). root.manager.current = 'mainsc'
-        Label:
-            text: 'New to the app?'
-        Button:
-            id: register
-            text: 'Register'
-            on_release: root.manager.current = 'register'
-        Button:
-            text: 'Exit'
-
-<RegisterScreen>
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: 'Register information'
-        TextInput:
-            id: new_username
-            text: 'Write your new username here'
-        Button:
-            id: register_user
-            text: 'Register'
-            on_release: root.user_register(), root.manager.current = 'mainsc'
-        Button:
-            text: 'Return'
-            on_release: root.manager.current = 'login'
-
-<MainScreen>
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: ''
-            id: welcome_text
-        Label:
-            text: ''
-            id: new_user_info
-        Button:
-            text: 'Logout'
-            on_release: root.manager.current = 'login'
-
-""")
 
 
 class LoginScreen(Screen):
@@ -94,11 +34,11 @@ scmanager.add_widget(MainScreen(name='mainsc'))
 scmanager.current = 'login'
 
 
-class SocialApp(App):
+class LoginuiApp(App):
 
     def build(self):
         return scmanager
 
 
 if __name__ == '__main__':
-    SocialApp().run()
+    LoginuiApp().run()
