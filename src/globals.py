@@ -20,7 +20,7 @@ class GlobalData():
     _user_model = UserData()
     
     #this should be changed once login screen is done
-    _user_model.login(21, "Parrot", "sguwsicp")
+    #_user_model.login(21, "Parrot", "sguwsicp")
     
     
     

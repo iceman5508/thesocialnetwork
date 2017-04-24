@@ -3,6 +3,17 @@ import requests
 import json
 
 
+def get_uname(uinfo):
+    return uinfo['username']
+
+
+def get_uid(uinfo):
+    return uinfo['uid']
+
+
+def get_utoken(uinfo):
+    return uinfo['token']
+
 class UserData(ServerInterface):
     """
     This class stores the user data and has functions that let's the user
@@ -53,7 +64,10 @@ class UserData(ServerInterface):
         user_info = json.loads(response.text)
         if uid is user_info['uid']:
             if username == user_info['username']:
-                self.info = user_info
+                u_uname = get_uname(user_info)
+                self.info['username'] = u_uname
+                u_uid = get_uid(user_info)
+                self.info['uid'] = u_uid
                 self.info['token'] = token
                 return self.info
             else:
@@ -137,11 +151,3 @@ class UserData(ServerInterface):
     
     def send_message(self):
         pass
-
-
-
-
-
-
-
-

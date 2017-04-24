@@ -1,7 +1,67 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
-from user_login import UserData
+from kivy.lang import Builder
+from globals import GlobalData
 
+
+Builder.load_string("""
+<LoginScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Login information'
+        TextInput:
+            id: username
+            text: 'Enter username here'
+        TextInput:
+            id: uid
+            text: 'Enter your id here'
+        TextInput:
+            id: token
+            text: 'Enter your token here'
+        Button:
+            id: login
+            text: 'Submit'
+            on_release: root.user_login()
+        Label:
+            text: 'New to the app?'
+        Button:
+            id: register
+            text: 'Register'
+            on_release: root.manager.current = 'register'
+        Button:
+            text: 'Exit'
+
+<RegisterScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Register information'
+        TextInput:
+            id: new_username
+            text: 'Write your new username here'
+        Button:
+            id: register_user
+            text: 'Register'
+            on_release: root.user_register()
+        Button:
+            text: 'Return'
+            on_release: root.manager.current = 'login'
+
+<MainScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: ''
+            id: welcome_text
+        Label:
+            text: ''
+            id: user_info
+        Button:
+            text: 'Logout'
+            on_release: root.manager.current = 'login'
+
+""")
 
 class LoginScreen(Screen):
 
@@ -9,21 +69,44 @@ class LoginScreen(Screen):
         user_name = self.ids.username.text
         user_id = self.ids.uid.text
         user_token = self.ids.token.text
-        self.User_object.login(self, user_id, user_name, user_token)
+        GlobalData._user_model.login(user_id, user_name, user_token)
+        self.manager.get_screen('mainsc').update_text_login()
+        scmanager.current = 'mainsc'
 
 
 class RegisterScreen(Screen):
 
     def user_register(self):
         new_username = self.ids.new_username.text
-        UserData.register(new_username)
+        user_info = GlobalData._user_model.register(new_username)
+        uname = GlobalData._user_model.get_username()
+        uid = GlobalData._user_model.get_id()
+        utoken = GlobalData._user_model.get_token()
+        GlobalData._user_model.login(uid, uname, utoken)
+        self.manager.get_screen('mainsc').update_text_register()
+        scmanager.current = 'mainsc'
 
 
 class MainScreen(Screen):
 
-    def update_text(self):
-        info = self.manager.get_screen('login').User_object
-        self.ids.welcome_text.text = info.get_username()
+    def update_text_register(self):
+        uname = GlobalData._user_model.get_username()
+        uid = GlobalData._user_model.get_id()
+        utoken = GlobalData._user_model.get_token()
+        self.ids.user_info.text = 'Username: ' + uname + '\n' + 'ID: ' \
+                                      + str(uid) + '\n' + 'Token: ' + utoken
+        self.ids.welcome_text.text = 'Welcome ' + uname
+
+    def update_text_login(self):
+        uname = GlobalData._user_model.get_username()
+        uid = GlobalData._user_model.get_id()
+        self.ids.welcome_text.text = 'Welcome ' + uname
+        self.ids.user_info.text = 'Username: ' + uname + '\n' + 'ID: '\
+                                      + str(uid)
+
+    def logout(self):
+        GlobalData._user_model = {}
+        scmanager.current = 'login'
 
 
 scmanager = ScreenManager()
