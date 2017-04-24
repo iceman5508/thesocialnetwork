@@ -64,16 +64,13 @@ class UserData(ServerInterface):
         user_info = json.loads(response.text)
         if uid is user_info['uid']:
             if username == user_info['username']:
-                u_uname = get_uname(user_info)
-                self.info['username'] = u_uname
-                u_uid = get_uid(user_info)
-                self.info['uid'] = u_uid
+                self.info = user_info
                 self.info['token'] = token
                 return self.info
             else:
-                return 'Invalid Username'
+                return 'Error'
         else:
-            return 'Invalid ID'
+            return 'Error'
 
     def change_username(self, uid, new_username, token):
         """
@@ -100,11 +97,11 @@ class UserData(ServerInterface):
                         self.info = changed_info
                         return self.info
                     else:
-                        return 'Invalid Username'
+                        return 'Error'
                 else:
-                    return 'Invalid ID'
+                    return 'Error'
             else:
-                return 'Invalid Token'
+                return 'Error'
         else:
             return 'Error'
     

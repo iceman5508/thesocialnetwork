@@ -2,7 +2,25 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.lang import Builder
 from globals import GlobalData
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
 
+
+def popup_error():
+    """
+    Creates a popup widget if an error is encountered while trying to access
+     the url.
+    """
+    content = BoxLayout(orientation='vertical')
+    message_label = Label(text='Wrong information')
+    dismiss_button = Button(text='Dismiss')
+    content.add_widget(message_label)
+    content.add_widget(dismiss_button)
+    popup = Popup(title='Error', content=content, size_hint=(0.3, 0.25))
+    dismiss_button.bind(on_release=popup.dismiss)
+    popup.open()
 
 Builder.load_string("""
 <LoginScreen>
@@ -31,6 +49,7 @@ Builder.load_string("""
             on_release: root.manager.current = 'register'
         Button:
             text: 'Exit'
+            on_release: app.stop()
 
 <RegisterScreen>
     BoxLayout:
@@ -69,9 +88,12 @@ class LoginScreen(Screen):
         user_name = self.ids.username.text
         user_id = self.ids.uid.text
         user_token = self.ids.token.text
-        GlobalData._user_model.login(user_id, user_name, user_token)
-        self.manager.get_screen('mainsc').update_text_login()
-        scmanager.current = 'mainsc'
+        GlobalData._user_model.login(int(user_id), user_name, user_token)
+        if GlobalData._user_model.login(int(user_id), user_name, user_token) == 'Error':
+            popup_error()
+        else:
+            self.manager.get_screen('mainsc').update_text_login()
+            scmanager.current = 'mainsc'
 
 
 class RegisterScreen(Screen):
