@@ -29,7 +29,7 @@ class PostMessageInterface(ServerInterface):
 
         return json.loads(response.text)
 
-    def get_posts(self):
+    def get_posts(self, limit=50, uid=None, tag=None):
         """
         A method to get posts.
 
@@ -39,7 +39,14 @@ class PostMessageInterface(ServerInterface):
         :return: Posts. According to the parameters if provided. If not, 50
         posts having any or no tags and any uids.
         """
-        response = requests.get(base_url + '/posts')
+        data = {}
+        data["limit"] = limit
+        if uid is not None:
+            data["uid"] = uid
+        if tag is not None:
+            data["tag"] = tag
+
+        response = requests.get(base_url + '/posts', data)
         return json.loads(response.text)
 
     def edit_post(self, uid, token, post_id, content):
@@ -71,12 +78,6 @@ class PostMessageInterface(ServerInterface):
                                                              'postid': postid})
         return json.loads(response.text)
 
-    def post_id(self, id):
-        pass
-
-    def get_id(self):
-        pass
-
     def send_message(self, to, subject, body):
         pass
 
@@ -89,5 +90,5 @@ class PostMessageInterface(ServerInterface):
 
 if __name__ == "__main__":
     user = PostMessageInterface()
-    #print user.post_status(21, 'Hello!', 'sguwsicp')
-    print user.get_posts()
+    print 1
+    print user.get_posts(tag='test')

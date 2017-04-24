@@ -6,6 +6,10 @@ class ServerInterface:
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
+    def __init__(self):
+        pass
+
+    @abc.abstractmethod
     def get_message(self, id):
         pass
 
@@ -24,15 +28,9 @@ class ServerInterface:
     @abc.abstractmethod
     def edit_post(self, uid, token, postid, content):
         pass
-    @abc.abstractmethod
-    def delete_post(self, uid, token, postid):
-        pass
-    @abc.abstractmethod
-    def post_id(self,id):
-        pass
 
     @abc.abstractmethod
-    def get_id(self):
+    def delete_post(self, uid, token, postid):
         pass
 
     @abc.abstractmethod

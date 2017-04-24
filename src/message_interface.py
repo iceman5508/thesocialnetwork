@@ -9,13 +9,12 @@ from controls.server_interface import ServerInterface
 
 
 class MessageInterface(ServerInterface):
-    '''
+    """
     This is the messgaeinterface class
-    The job of this class is to manage 
+    The job of this class is to manage
     all services as it relates to personal
     messages.
-    '''
-
+    """
     def __init__(self, user):
         """
         Like every other interface class in 
@@ -27,8 +26,7 @@ class MessageInterface(ServerInterface):
         self.base_url = 'http://nsommer.wooster.edu/social'
         self.user = user
         self.messages = list()
-      
-    
+
     def get_conversations(self):
         """
         gets all messages for the user
@@ -73,15 +71,8 @@ class MessageInterface(ServerInterface):
         posts = requests.post(self.base_url + '/messages', content)
         message = json.loads(posts.text)        
         return message       
-    
 
-    def get_id(self):
-        pass
-    
     def rate_post(self):
-        pass
-    
-    def post_id(self,id):
         pass
     
     def delete_post(self):
@@ -95,21 +86,3 @@ class MessageInterface(ServerInterface):
     
     def post_status(self):
         pass
-        
-
-    
-             
-        
-        
-        
-        
-        
-        
-          
-        
-        
-        
-    
-    
-       
-        
