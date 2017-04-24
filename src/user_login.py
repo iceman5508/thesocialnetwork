@@ -3,6 +3,17 @@ import requests
 import json
 
 
+def get_uname(uinfo):
+    return uinfo['username']
+
+
+def get_uid(uinfo):
+    return uinfo['uid']
+
+
+def get_utoken(uinfo):
+    return uinfo['token']
+
 class UserData(ServerInterface):
     """
     This class stores the user data and has functions that let's the user
@@ -57,9 +68,9 @@ class UserData(ServerInterface):
                 self.info['token'] = token
                 return self.info
             else:
-                return 'Invalid Username'
+                return 'Error'
         else:
-            return 'Invalid ID'
+            return 'Error'
 
     def change_username(self, uid, new_username, token):
         """
@@ -86,11 +97,11 @@ class UserData(ServerInterface):
                         self.info = changed_info
                         return self.info
                     else:
-                        return 'Invalid Username'
+                        return 'Error'
                 else:
-                    return 'Invalid ID'
+                    return 'Error'
             else:
-                return 'Invalid Token'
+                return 'Error'
         else:
             return 'Error'
     
@@ -137,11 +148,3 @@ class UserData(ServerInterface):
     
     def send_message(self):
         pass
-
-
-
-
-
-
-
-

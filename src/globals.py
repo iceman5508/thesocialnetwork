@@ -3,6 +3,10 @@ Created on Apr 22, 2017
 @author: isaac
 '''
 from user_login import UserData
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 
 
 class GlobalData():
