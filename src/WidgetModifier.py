@@ -14,29 +14,29 @@ class Modify():
         '''
         Constructor
         '''
-    
+
         self.widget = widget
-    
+
     '''
-    Modifies the color of 
+    Modifies the color of widget
     '''
     def text_color(self, r, g, b, alpha):
-        
+
         self.widget.color = [r, g, b, alpha]
-        
+
     '''
-    Modifies the background color 
+    Modifies the background color
     '''
     def background_color(self, r, g, b, alpha):
         self.widget.background_color = [r, g, b, alpha]
 
     '''
      Modifies the size of the widget
-     '''   
+     '''
     def size(self, width, height):
         # self.widget.size = [width,height]
         self.widget.size_hint = (width, height)
-        
+
     '''
     Modifies the position of the widget
     '''
@@ -45,16 +45,16 @@ class Modify():
 
     '''
     Modify the size of the text
-    '''  
+    '''
     def text_size(self, size):
         self.widget.font_size = size
-     
+
     '''
     modify the text of a widget
     '''
-    def text(self, text):  
+    def text(self, text):
         self.widget.text = text
-          
+
     '''
     Returns the modified widget
     '''

@@ -1,7 +1,6 @@
 from server_interface import ServerInterface
 import json
 import requests
-
 base_url = 'http://nsommer.wooster.edu/social'
 
 
@@ -29,25 +28,15 @@ class PostMessageInterface(ServerInterface):
 
         return json.loads(response.text)
 
-    def get_posts(self, limit=50, uid=None, tag=None):
+    def get_posts(self, limit, tag):
         """
-        A method to get posts.
 
-        :param limit: OPTIONAL. If passed, gets posts equal to the limit.
-        :param uid: OPTIONAL. If passed, gets posts with only passed uid.
-        :param tag: OPTIONAL. If passed, gets posts with only passed tag.
-        :return: Posts. According to the parameters if provided. If not, 50
-        posts having any or no tags and any uids.
+        :param limit:
+        :param tag:
+        :return:
         """
-        data = {}
-        data["limit"] = limit
-        if uid is not None:
-            data["uid"] = uid
-        if tag is not None:
-            data["tag"] = tag
-
-        response = requests.get(base_url + '/posts', data)
-        return json.loads(response.text)
+        response = requests.get(base_url+ '/posts')
+        json_info = json.loads(response)
 
     def edit_post(self, uid, token, post_id, content):
         """
@@ -78,6 +67,12 @@ class PostMessageInterface(ServerInterface):
                                                              'postid': postid})
         return json.loads(response.text)
 
+    def post_id(self, id):
+        pass
+
+    def get_id(self):
+        pass
+
     def send_message(self, to, subject, body):
         pass
 
@@ -90,5 +85,4 @@ class PostMessageInterface(ServerInterface):
 
 if __name__ == "__main__":
     user = PostMessageInterface()
-    print 1
-    print user.get_posts(tag='test')
+    print user.post_status(21, 'Hello!', 'sguwsicp')

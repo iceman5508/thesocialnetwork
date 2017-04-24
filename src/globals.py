@@ -1,6 +1,5 @@
 '''
 Created on Apr 22, 2017
-
 @author: isaac
 '''
 from user_login import UserData
@@ -9,26 +8,22 @@ from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 
+
 class GlobalData():
     """
-    This class makes the transfer of data 
-    between different parts of the application
-    easier. 
+    This class makes the transfer of data between different parts
+    of the application easier.
     """
 
-    #keep track of current conversation
+    '''keep track of current conversation'''
     _current_convo = None
-    
-    
-    
+
+    '''keep track of the user'''
     _user_model = UserData()
-    
-    #this should be changed once login screen is done
-    #_user_model.login(21, "Parrot", "sguwsicp")
-    
-    
-    
-    
+
+    '''this should be changed once login screen is done'''
+    _user_model.login(21, "Parrot", "sguwsicp")
+
     """
     Interact with the
     user class to log user in
