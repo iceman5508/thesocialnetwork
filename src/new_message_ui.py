@@ -3,15 +3,15 @@ Created on Apr 22, 2017
 @author: isaac
 This class handles all the visual for the new user messages
 '''
-from view.Screens import Screens
-from view.WidgetModifier import Modify
+from Screens import Screens
+from WidgetModifier import Modify
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
-from controls.globals import GlobalData
-from view.ErrorPopup import Error
-from controls.message_interface import MessageInterface
+from globals import GlobalData
+from ErrorPopup import Error
+from message_interface import MessageInterface
 
 
 class ComposeScreen(Screens):

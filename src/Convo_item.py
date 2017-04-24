@@ -4,7 +4,7 @@ Created on Apr 22, 2017
 @author: isaac
 '''
 from kivy.uix.button import Button
-from controls.globals import GlobalData
+from globals import GlobalData
 
 
 class ConvoItem(Button):

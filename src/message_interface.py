@@ -5,7 +5,7 @@ Created on Apr 18, 2017
 '''
 import requests
 import json
-from controls.server_interface import ServerInterface
+from server_interface import ServerInterface
 
 
 class MessageInterface(ServerInterface):

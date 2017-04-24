@@ -3,17 +3,17 @@ Created on Apr 22, 2017
 @author: isaac
 This class handles all the visual for the user messages
 '''
-from view.Screens import Screens
-from controls.globals import GlobalData
+from Screens import Screens
+from globals import GlobalData
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from view.WidgetModifier import Modify
-from controls.message_interface import MessageInterface
+from WidgetModifier import Modify
+from message_interface import MessageInterface
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-from view.Convo_item import ConvoItem
+from Convo_item import ConvoItem
 from kivy.uix.button import Button
-from view.ErrorPopup import Error
+from ErrorPopup import Error
 
 
 class MessageScreen(Screens):

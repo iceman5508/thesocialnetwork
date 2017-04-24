@@ -1,8 +1,8 @@
 from kivy.app import App
 from kivy.clock import Clock
-from view.Screens import Screens
-from ui.message_ui import MessageScreen
-from ui.new_message_ui import ComposeScreen
+from Screens import Screens
+from message_ui import MessageScreen
+from new_message_ui import ComposeScreen
 
 '''
 Social Messaging application
