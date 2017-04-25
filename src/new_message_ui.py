@@ -98,6 +98,7 @@ class ComposeScreen(Screens):
                     GlobalData._current_convo = to_id
                     self.input_uname.text("to:")
                     self.input_message.text("message:")
+                    GlobalData._update_ui = True
                     Screens._manager.active_screen("messages")
 
     def filter_logic(self, text, holder, width):
