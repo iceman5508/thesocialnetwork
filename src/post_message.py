@@ -23,11 +23,12 @@ class PostMessageInterface(ServerInterface):
         :param token: unique authentication for the user
         :return: the post id
         """
-        requests.post(base_url+ '/posts', data={'uid': uid,
+        response = requests.post(base_url+ '/posts', data={'uid': uid,
                                                 'token': token,
                                                 'parentid': -1,
                                                 'content': content,
                                                 })
+        return response.status_code
 
     def get_posts(self, limit=50, uid=None, tag=None):
         """
@@ -86,15 +87,15 @@ class PostMessageInterface(ServerInterface):
         posts_data = json.loads(get_response.text)
         data = {}
         token = GlobalData._user_model.get_token()
-        data["token"] = token
 
         for item in posts_data:
-            if item['postid'] == postid:
-                data["uid"] = item['uid']
-                data["postid"] = item['postid']
+            if item[u'postid'] == postid:
+                data['uid'] = item['uid']
+                data['token'] = token
+                data['postid'] = item['postid']
             else:
                 continue
-        response = requests.post(base_url + '/upvotes', data)
+        requests.post(base_url + '/upvotes', data)
 
     def get_message(self, id):
         pass
@@ -108,6 +109,13 @@ class PostMessageInterface(ServerInterface):
         pass
         
 
+    def get_id(self):
+        pass
+
+    def post_id(self,id):
+        pass
+
 
 if __name__ == "__main__":
-    print 1
+    user = PostMessageInterface()
+    user.post_status(21, 'HELLO', 'sguwsicp')

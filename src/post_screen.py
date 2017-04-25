@@ -8,6 +8,10 @@
 # and https://kivy.org/docs/api-kivy.config.html#kivy.config.ConfigParser.set
 # and http://stackoverflow.com/questions/8266529/python-convert-string-to-list
 # and http://stackoverflow.com/questions/9542738/python-find-in-list
+# and http://stackoverflow.com/questions/9758959/python-how-to-sort-a-list
+# -of-numerical-values-in-ascending-order
+# and http://stackoverflow.com/questions/402504/how-to-determine-
+# a-variables-type
 # for this. (-Bhargav)
 
 from kivy.app import App
@@ -18,6 +22,8 @@ from kivy.lang import Builder
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from ErrorPopup import Error
+from kivy.uix.label import Label
 
 Builder.load_string("""
 <PostScreen>
@@ -95,12 +101,6 @@ Builder.load_string("""
             orientation: 'horizontal'
             color: 1,0,0,1
             size_hint_y: 0.4
-            Button:
-                text: 'New post'
-                bold: 1
-                font_size: 25
-                background_color: 0, 0.3, 0.7, 0.65
-                on_release: root.manager.current = 'post'
             BoxLayout:
                 orientation: 'vertical'
                 Label:
@@ -135,6 +135,13 @@ Builder.load_string("""
                 font_size: 22
                 on_release: root.update_posts()
             Button:
+                text: 'New post'
+                bold: 1
+                font_size: 25
+                background_color: 0, 0.3, 0.7, 0.65
+                on_release: root.manager.current = 'post'
+
+            Button:
                 text: 'Home'
                 background_color: 0, 0.3, 0.7, 0.65
                 bold: 1
@@ -150,10 +157,12 @@ class PostScreen(Screen):
         uid = GlobalData._user_model.get_id()
         token = GlobalData._user_model.get_token()
         post_getter = PostMessageInterface()
-        return post_getter.post_status(uid, token, content)
+        post_getter.post_status(uid, content, token)
 
 
 class FeedScreen(Screen):
+
+    _current_ids = []
 
     def update_posts(self):
         if self.ids.limit_input.text == '' or \
@@ -171,7 +180,8 @@ class FeedScreen(Screen):
             tag = None
         else:
             tag = self.ids.tag_input.text
-        self.ids.display.text = feed(limit, uid, tag)
+
+
 
     def upvote_posts(self):
         list_upvotes = []
@@ -189,17 +199,20 @@ class FeedScreen(Screen):
         for i in range(0, len(list_upvotes)):
             final_list.append(int(list_upvotes[i]))
 
+        final_list.sort(key=int)
         for i in range(0, len(final_list)):
-            if final_list[i] in GlobalData.current_post_ids:
+            if final_list[i] in self._current_ids:
                 post_getter.rate_post(final_list[i])
             else:
                 continue
+
+        self.update_posts()
 
 
 def feed(limit=50, uid=None, tag=None):
     post_getter = PostMessageInterface()
     json_response_info = post_getter.get_posts(limit, uid, tag)
-    GlobalData.current_post_ids = []
+    FeedScreen._current_ids = []
     display_text = ""
     message_number = 0
     for item in json_response_info:
@@ -212,7 +225,7 @@ def feed(limit=50, uid=None, tag=None):
         display_text += ("\n\nUpvotes: " + ('[*]' * json_text[u'upvotes']))
         display_text += "\n\n"
 
-        GlobalData.current_post_ids.append(int(json_text[u'postid']))
+        FeedScreen._current_ids.append(int(json_text[u'postid']))
 
 
         message_number += 1
