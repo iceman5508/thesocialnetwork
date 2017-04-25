@@ -34,13 +34,13 @@ Builder.load_string("""
             text: 'Login information'
         TextInput:
             id: username
-            text: 'Enter username here'
+            hint_text: 'Enter username here'
         TextInput:
             id: uid
-            text: 'Enter your id here'
+            hint_text: 'Enter your id here'
         TextInput:
             id: token
-            text: 'Enter your token here'
+            hint_text: 'Enter your token here'
         Button:
             id: login
             text: 'Submit'
@@ -62,7 +62,7 @@ Builder.load_string("""
             text: 'Register information'
         TextInput:
             id: new_username
-            text: 'Write your new username here'
+            hint_text: 'Write your new username here'
         Button:
             id: register_user
             text: 'Register'
