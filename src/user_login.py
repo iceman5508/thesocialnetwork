@@ -14,6 +14,7 @@ def get_uid(uinfo):
 def get_utoken(uinfo):
     return uinfo['token']
 
+
 class UserData(ServerInterface):
     """
     This class stores the user data and has functions that let's the user
@@ -30,7 +31,7 @@ class UserData(ServerInterface):
         return self.info['uid']
 
     def get_username(self):
-        return self.info['username']
+        return self.info[u'username']
 
     def get_token(self):
         return self.info['token']
@@ -113,7 +114,8 @@ class UserData(ServerInterface):
         :param username: name of the user requested
         :return: returns the user information
         """
-        response = requests.get(self.base_url + '/users', data={'username': username})
+        response = requests.get(self.base_url + '/users',
+                                data={'username': username})
         if response.status_code is 200:
             return json.loads(response.text)
         else:
@@ -132,8 +134,6 @@ class UserData(ServerInterface):
             return json.loads(response.text)
         else:
             return None
-       
-        
 
     def get_message(self, id):
         pass
