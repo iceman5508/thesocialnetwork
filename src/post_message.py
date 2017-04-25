@@ -1,6 +1,8 @@
 from server_interface import ServerInterface
 import json
 import requests
+from globals import GlobalData
+
 base_url = 'http://nsommer.wooster.edu/social'
 
 
@@ -21,22 +23,31 @@ class PostMessageInterface(ServerInterface):
         :param token: unique authentication for the user
         :return: the post id
         """
-        response = requests.post(base_url+ '/posts', data={'uid': uid,
-                                                           'parentid': -1,
-                                                           'content': content,
-                                                           'token': token})
+        requests.post(base_url+ '/posts', data={'uid': uid,
+                                                'token': token,
+                                                'parentid': -1,
+                                                'content': content,
+                                                })
 
+    def get_posts(self, limit=50, uid=None, tag=None):
+        """
+        A method to get posts.
+
+        :param limit: OPTIONAL. If passed, gets posts equal to the limit.
+        :param uid: OPTIONAL. If passed, gets posts with only passed uid.
+        :param tag: OPTIONAL. If passed, gets posts with only passed tag.
+        :return: Posts. According to the parameters if provided. If not, 50
+        posts having any or no tags and any uids.
+        """
+        data = {}
+        data["limit"] = limit
+        if uid is not None:
+            data["uid"] = uid
+        if tag is not None:
+            data["tag"] = tag
+
+        response = requests.get(base_url + '/posts', data)
         return json.loads(response.text)
-
-    def get_posts(self, limit, tag):
-        """
-
-        :param limit:
-        :param tag:
-        :return:
-        """
-        response = requests.get(base_url+ '/posts')
-        json_info = json.loads(response)
 
     def edit_post(self, uid, token, post_id, content):
         """
@@ -50,7 +61,7 @@ class PostMessageInterface(ServerInterface):
         """
         response = requests.patch(base_url+ '/posts',data={'uid': uid,
                                                            'token': token,
-                                                           'post_id': post_id,
+                                                           'postid': post_id,
                                                            'content': content})
         return json.loads(response.text)
 
@@ -67,22 +78,27 @@ class PostMessageInterface(ServerInterface):
                                                              'postid': postid})
         return json.loads(response.text)
 
-    def post_id(self, id):
-        pass
-
-    def get_id(self):
-        pass
-
     def send_message(self, to, subject, body):
         pass
 
-    def rate_post(self):
-        pass
+    def rate_post(self, postid):
+        get_response = requests.get(base_url + '/posts')
+        posts_data = json.loads(get_response.text)
+        data = {}
+        token = GlobalData._user_model.get_token()
+        data["token"] = token
+
+        for item in posts_data:
+            if item['postid'] == postid:
+                data["uid"] = item['uid']
+                data["postid"] = item['postid']
+            else:
+                continue
+        response = requests.post(base_url + '/upvotes', data)
 
     def get_message(self, id):
         pass
 
 
 if __name__ == "__main__":
-    user = PostMessageInterface()
-    print user.post_status(21, 'Hello!', 'sguwsicp')
+    print 1
