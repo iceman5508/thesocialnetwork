@@ -32,18 +32,20 @@ Builder.load_string("""
         orientation: 'vertical'
         Label:
             text: 'New Post'
-            bold: 1
             font_size: 30
-            color: 0, 0.2, 0.7, 0.9
+            bold: 1
+            color: 0.5, 0.5, 0.3, 0.9
 
         TextInput:
             id: content
-            hint_text: 'Double tap to start typing'
+            hint_text: 'Type your post here'
+            foreground_color: 1,1,1,1
             background_color: 0, 0.3, 0.5, 0.5
 
         Button:
             text:'Post'
             background_color: 0, 0.3, 0.7, 0.65
+            bold: 1
             on_press:
                 root.manager.transition.direction = 'right'
                 root.post()
@@ -51,6 +53,7 @@ Builder.load_string("""
         Button:
             id: cancel
             text: 'Back to feed'
+            bold: 1
             background_color: 0, 0.3, 0.7, 0.65
             on_press:
                 root.manager.transition.direction = 'right'
@@ -82,19 +85,19 @@ Builder.load_string("""
             size_hint_y: 0.1
             Label:
                 text: 'Enter post IDs to upvote: '
-                size_hint_x: 0.3
+                size_hint_x: 0.25
                 color: 0.9, 0.5, 0.1, 1
                 bold: 1
                 italic: 1
             TextInput:
                 id: upvotes_input
-                size_hint_x: 0.3
+                size_hint_x: 0.35
                 hint_text: '[MAX 3 ENTRIES] Example: 1 3 20'
                 hint_text_color: 0.2, 0.5, 0.7, 0.7
                 background_color: 0, 0.3, 0.5, 0.5
             Button:
                 size_hint_x: 0.4
-                text: 'UPVOTE'
+                text: 'UPVOTE  [*]'
                 background_color: 0, 0.3, 0.7, 0.65
                 bold: 1
                 italic: 1
@@ -154,7 +157,14 @@ Builder.load_string("""
 
 
 class PostScreen(Screen):
+    """
+    This class helps in generating the Screen to post new things to the feed.
+    """
     def post(self):
+        """
+        Function to post something to the feed.
+        :return: nothing
+        """
         content = self.ids.content.text
         uid = GlobalData._user_model.get_id()
         token = GlobalData._user_model.get_token()
@@ -163,10 +173,18 @@ class PostScreen(Screen):
 
 
 class FeedScreen(Screen):
+    """
+    This class helps in generating the Screen to view your feed.
+    """
 
     _current_ids = []
 
     def update_posts(self):
+        """
+        Function to update the feed with the current settings mentioned on the
+        User Interface.
+        :return: nothing
+        """
         if self.ids.limit_input.text == '' or \
                 self.ids.limit_input.text == 'Limit':
             limit = 50
@@ -186,6 +204,11 @@ class FeedScreen(Screen):
         self.ids.display.text = feed(limit, uid, tag)
 
     def upvote_posts(self):
+        """
+        Function to upvote mentioned posts. The function also refreshes the
+        feed after upvoting.
+        :return: nothing
+        """
         list_upvotes = []
         string_upvotes = ''
         final_list = []
@@ -214,6 +237,16 @@ class FeedScreen(Screen):
 
 
 def feed(limit=50, uid=None, tag=None):
+    """
+    Function to get the text that is supposed to be displayed in the feed.
+    :param limit: The limit of the number of messages to be displayed. The
+    default value is 50.
+    :param uid: The User ID whose posts should be displayed. The default value
+    is None, which will get the posts by any User IDs.
+    :param tag: The Tag whose posts should be displayed. The default value is
+    None, which will get the posts having any Tags.
+    :return: The text to be displayed in the feed.
+    """
     post_getter = PostMessageInterface()
     json_response_info = post_getter.get_posts(limit, uid, tag)
     FeedScreen._current_ids = []

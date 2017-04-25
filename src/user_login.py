@@ -14,6 +14,7 @@ def get_uid(uinfo):
 def get_utoken(uinfo):
     return uinfo['token']
 
+
 class UserData(ServerInterface):
     """
     This class stores the user data and has functions that let's the user
@@ -30,7 +31,7 @@ class UserData(ServerInterface):
         return self.info['uid']
 
     def get_username(self):
-        return self.info['username']
+        return self.info[u'username']
 
     def get_token(self):
         return self.info['token']

@@ -83,6 +83,13 @@ class PostMessageInterface(ServerInterface):
         pass
 
     def rate_post(self, postid, token, uid):
+        """
+        The function to upvote posts.
+        :param postid: The postid of the post that needs to be upvoted.
+        :param token: The token of the user who wants some post to be upvoted.
+        :param uid: The User ID of the user who wants some post to be upvoted.
+        :return: nothing
+        """
         get_response = requests.get(base_url + '/posts')
         posts_data = json.loads(get_response.text)
         data = {}
