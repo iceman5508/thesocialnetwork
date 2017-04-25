@@ -14,6 +14,7 @@ from kivy.uix.textinput import TextInput
 from Convo_item import ConvoItem
 from kivy.uix.button import Button
 from ErrorPopup import Error
+from _ast import If
 
 
 class MessageScreen(Screens):
@@ -112,6 +113,17 @@ class MessageScreen(Screens):
         Update the message by checking across the business logic
         and update the ui upon getting a new message.
         """
+
+        if GlobalData._update_ui is True:
+            self.message_list = self.mi.get_conversations()
+            add_to = GlobalData._user_model.get_user_by_id(
+                     GlobalData._current_convo )
+            item_button = Modify(ConvoItem(add_to))
+            item_button.size(1, 0.3)
+            item_button.background_color(0.3, 0.6, 1, 1)
+            self.left_layout.add_widget(item_button.get_widget())
+            GlobalData._update_ui = False          
+
         try:
             if GlobalData._current_convo is not None:
                 message = self.mi.get_message(GlobalData._current_convo)

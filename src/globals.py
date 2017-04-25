@@ -27,6 +27,8 @@ class GlobalData():
     #keep track of screen manager
     _scmanager = Screens._manager
     
+    #keep track of convo ui
+    _update_ui = False
     
     """
     Interact with the

@@ -118,6 +118,20 @@ class UserData(ServerInterface):
             return json.loads(response.text)
         else:
             return None
+    
+    def get_user_by_id(self, uid):
+        """
+        Grabs a specific user based on the userid
+        given
+        
+        :param username: name of the user requested
+        :return: returns the user information
+        """
+        response = requests.get(self.base_url + '/users', data={'uid': uid})
+        if response.status_code is 200:
+            return json.loads(response.text)
+        else:
+            return None
        
         
 
