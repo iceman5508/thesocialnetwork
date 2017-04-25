@@ -14,9 +14,10 @@ class GlobalData():
 
     #keep track of current conversation
     _current_convo = None
-    
-    
-    
+
+    # keep track of current post IDs displayed on the feed
+    current_post_ids = []
+
     _user_model = UserData()
     
     #this should be changed once login screen is done

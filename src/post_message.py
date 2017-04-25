@@ -1,6 +1,7 @@
 from server_interface import ServerInterface
 import json
 import requests
+from globals import GlobalData
 
 base_url = 'http://nsommer.wooster.edu/social'
 
@@ -22,12 +23,11 @@ class PostMessageInterface(ServerInterface):
         :param token: unique authentication for the user
         :return: the post id
         """
-        response = requests.post(base_url+ '/posts', data={'uid': uid,
-                                                           'parentid': -1,
-                                                           'content': content,
-                                                           'token': token})
-
-        return json.loads(response.text)
+        requests.post(base_url+ '/posts', data={'uid': uid,
+                                                'token': token,
+                                                'parentid': -1,
+                                                'content': content,
+                                                })
 
     def get_posts(self, limit=50, uid=None, tag=None):
         """
@@ -61,7 +61,7 @@ class PostMessageInterface(ServerInterface):
         """
         response = requests.patch(base_url+ '/posts',data={'uid': uid,
                                                            'token': token,
-                                                           'post_id': post_id,
+                                                           'postid': post_id,
                                                            'content': content})
         return json.loads(response.text)
 
@@ -81,14 +81,24 @@ class PostMessageInterface(ServerInterface):
     def send_message(self, to, subject, body):
         pass
 
-    def rate_post(self):
-        pass
+    def rate_post(self, postid):
+        get_response = requests.get(base_url + '/posts')
+        posts_data = json.loads(get_response.text)
+        data = {}
+        token = GlobalData._user_model.get_token()
+        data["token"] = token
+
+        for item in posts_data:
+            if item['postid'] == postid:
+                data["uid"] = item['uid']
+                data["postid"] = item['postid']
+            else:
+                continue
+        response = requests.post(base_url + '/upvotes', data)
 
     def get_message(self, id):
         pass
 
 
 if __name__ == "__main__":
-    user = PostMessageInterface()
     print 1
-    print user.get_posts(tag='test')
