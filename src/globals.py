@@ -6,6 +6,7 @@ Created on Apr 22, 2017
 from user_login import UserData
 from Screens import Screens
 
+
 class GlobalData():
     """
     This class makes the transfer of data 
@@ -13,7 +14,7 @@ class GlobalData():
     easier. 
     """
 
-    #keep track of current conversation
+    # keep track of current conversation
     _current_convo = None
 
     # keep track of current post IDs displayed on the feed
@@ -21,13 +22,13 @@ class GlobalData():
 
     _user_model = UserData()
     
-    #this should be changed once login screen is done
-    #_user_model.login(21, "Parrot", "sguwsicp")
+    # this should be changed once login screen is done
+    # user_model.login(21, "Parrot", "sguwsicp")
     
-    #keep track of screen manager
+    # keep track of screen manager
     _scmanager = Screens._manager
     
-    #keep track of convo ui
+    # keep track of convo ui
     _update_ui = False
     
     """

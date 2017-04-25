@@ -99,7 +99,8 @@ class LoginScreen(Screen):
         user_id = self.ids.uid.text
         user_token = self.ids.token.text
         GlobalData._user_model.login(int(user_id), user_name, user_token)
-        if GlobalData._user_model.login(int(user_id), user_name, user_token) == 'Error':
+        if GlobalData._user_model.login(int(user_id), user_name, user_token) \
+                == 'Error':
             popup_error()
         else:
             self.manager.get_screen('mainsc').update_text_login()

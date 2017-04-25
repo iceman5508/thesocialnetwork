@@ -43,6 +43,7 @@ Builder.load_string("""
 
         Button:
             text:'Post'
+            background_color: 0, 0.3, 0.7, 0.65
             on_press:
                 root.manager.transition.direction = 'right'
                 root.post()
@@ -50,6 +51,7 @@ Builder.load_string("""
         Button:
             id: cancel
             text: 'Back to feed'
+            background_color: 0, 0.3, 0.7, 0.65
             on_press:
                 root.manager.transition.direction = 'right'
                 root.manager.current = 'fscreen'
@@ -79,7 +81,7 @@ Builder.load_string("""
             orientation: 'horizontal'
             size_hint_y: 0.1
             Label:
-                text: 'Enter post ID to upvote: '
+                text: 'Enter post IDs to upvote: '
                 size_hint_x: 0.3
                 color: 0.9, 0.5, 0.1, 1
                 bold: 1
@@ -87,7 +89,7 @@ Builder.load_string("""
             TextInput:
                 id: upvotes_input
                 size_hint_x: 0.3
-                hint_text: 'Example: 1 3 20'
+                hint_text: '[MAX 3 ENTRIES] Example: 1 3 20'
                 hint_text_color: 0.2, 0.5, 0.7, 0.7
                 background_color: 0, 0.3, 0.5, 0.5
             Button:
@@ -181,20 +183,22 @@ class FeedScreen(Screen):
         else:
             tag = self.ids.tag_input.text
 
-
+        self.ids.display.text = feed(limit, uid, tag)
 
     def upvote_posts(self):
         list_upvotes = []
         string_upvotes = ''
         final_list = []
+        token = GlobalData._user_model.get_token()
         post_getter = PostMessageInterface()
+        uid = GlobalData._user_model.get_id()
         if self.ids.upvotes_input.text == '' or \
-                self.ids.upvotes_input.text == 'Example: 1 3 20':
+                self.ids.upvotes_input.text == \
+                '[MAX 3 ENTRIES] Example: 1 3 20':
             list_upvotes = []
         else:
             string_upvotes = self.ids.upvotes_input.text
             list_upvotes = string_upvotes.split()
-        # ERROR CHECKING NEEDED!
 
         for i in range(0, len(list_upvotes)):
             final_list.append(int(list_upvotes[i]))
@@ -202,7 +206,7 @@ class FeedScreen(Screen):
         final_list.sort(key=int)
         for i in range(0, len(final_list)):
             if final_list[i] in self._current_ids:
-                post_getter.rate_post(final_list[i])
+                post_getter.rate_post(final_list[i], token, uid)
             else:
                 continue
 
@@ -227,23 +231,10 @@ def feed(limit=50, uid=None, tag=None):
 
         FeedScreen._current_ids.append(int(json_text[u'postid']))
 
-
         message_number += 1
         if message_number > limit:
             break
     return display_text
 
-scmanager = ScreenManager()
-scmanager.add_widget(PostScreen(name='post'))
-scmanager.add_widget(FeedScreen(name='fscreen'))
-scmanager.current = 'fscreen'
-
-
-class postuiApp(App):
-
-    def build(self):
-        return scmanager
-
-
 if __name__ == '__main__':
-    postuiApp().run()
+    pass

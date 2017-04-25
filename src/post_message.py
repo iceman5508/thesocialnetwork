@@ -82,40 +82,27 @@ class PostMessageInterface(ServerInterface):
     def send_message(self, to, subject, body):
         pass
 
-    def rate_post(self, postid):
+    def rate_post(self, postid, token, uid):
         get_response = requests.get(base_url + '/posts')
         posts_data = json.loads(get_response.text)
         data = {}
-        token = GlobalData._user_model.get_token()
-
+        data['uid'] = uid
+        data['token'] = token
         for item in posts_data:
-            if item[u'postid'] == postid:
-                data['uid'] = item['uid']
-                data['token'] = token
-                data['postid'] = item['postid']
+            if postid == item[u'postid']:
+                data['postid'] = item[u'postid']
             else:
                 continue
         requests.post(base_url + '/upvotes', data)
 
     def get_message(self, id):
         pass
-    
-   
+
     def get_id(self):
         pass
-    
-   
+
     def post_id(self, id):
         pass
-        
-
-    def get_id(self):
-        pass
-
-    def post_id(self,id):
-        pass
-
 
 if __name__ == "__main__":
-    user = PostMessageInterface()
-    user.post_status(21, 'HELLO', 'sguwsicp')
+    pass
