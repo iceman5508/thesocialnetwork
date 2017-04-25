@@ -4,6 +4,7 @@ Created on Apr 22, 2017
 @author: isaac
 '''
 from user_login import UserData
+from Screens import Screens
 
 class GlobalData():
     """
@@ -21,9 +22,10 @@ class GlobalData():
     _user_model = UserData()
     
     #this should be changed once login screen is done
-    _user_model.login(21, "Parrot", "sguwsicp")
+    #_user_model.login(21, "Parrot", "sguwsicp")
     
-    
+    #keep track of screen manager
+    _scmanager = Screens._manager
     
     
     """
