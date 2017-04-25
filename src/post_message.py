@@ -98,6 +98,15 @@ class PostMessageInterface(ServerInterface):
 
     def get_message(self, id):
         pass
+    
+   
+    def get_id(self):
+        pass
+    
+   
+    def post_id(self, id):
+        pass
+        
 
 
 if __name__ == "__main__":
