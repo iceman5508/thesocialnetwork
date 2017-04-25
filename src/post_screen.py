@@ -135,7 +135,7 @@ Builder.load_string("""
                 font_size: 22
                 on_release: root.update_posts()
             Button:
-                text: 'Main Menu'
+                text: 'Home'
                 background_color: 0, 0.3, 0.7, 0.65
                 bold: 1
                 font_size: 22

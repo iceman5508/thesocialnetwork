@@ -37,9 +37,16 @@ class MessageScreen(Screens):
         self.new_convo.size(1, 0.2)
         self.new_convo.background_color(0.4, 1, 1, 1)
         self.new_convo.text_color(1, 1, 1, 1)
+        
+        self.homee = Modify(Button(text="Return Home",
+                                on_press=self.home))
+        self.homee.size(1, 0.2)
+        self.homee.background_color(0.4, 1, 1, 1)
+        self.homee.text_color(1, 1, 1, 1)
 
         self.left_layout.add_widget(convo_label.get_widget())
         self.left_layout.add_widget(self.new_convo.get_widget())
+        self.left_layout.add_widget(self.homee.get_widget())
 
         self.right_layout = BoxLayout(padding=10, orientation='vertical')
 
@@ -148,3 +155,12 @@ class MessageScreen(Screens):
         self.send_message.get_widget().disabled = True
         self.send_button.get_widget().disabled = True
         Screens._manager.active_screen("new_messages")
+    
+    def home(self, param):
+        """
+        Switch to the home screen
+        """
+        self.display_message.text("No Message Selected")
+        self.send_message.get_widget().disabled = True
+        self.send_button.get_widget().disabled = True
+        Screens._manager.active_screen("mainsc")

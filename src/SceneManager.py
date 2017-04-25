@@ -37,4 +37,7 @@ class SceneManager(ScreenManager):
             self.current = screen_name
 
     def update(self, params):
-        self.get_screen(self.current).update()
+        try:
+            self.get_screen(self.current).update()
+        except Exception as e:
+            pass

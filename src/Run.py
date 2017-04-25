@@ -6,6 +6,10 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.popup import Popup
+from kivy.clock import Clock
+from message_ui import MessageScreen
+from new_message_ui import ComposeScreen
+from post_screen import FeedScreen, PostScreen
 
 
 def popup_error():
@@ -77,6 +81,12 @@ Builder.load_string("""
             text: ''
             id: user_info
         Button:
+            text: 'Messages'
+            on_release: root.manager.current = 'messages'
+        Button:
+            text: 'Feeds'
+            on_release: root.manager.current = 'fscreen'
+        Button:
             text: 'Logout'
             on_release: root.manager.current = 'login'
 
@@ -93,6 +103,19 @@ class LoginScreen(Screen):
             popup_error()
         else:
             self.manager.get_screen('mainsc').update_text_login()
+            
+            '''message screen'''
+            message = MessageScreen("messages")
+            message.on_init()
+
+            '''new message screen'''
+            new_message = ComposeScreen("new_messages")
+            new_message.on_init()
+            
+            '''feeds'''
+            scmanager.add_widget(FeedScreen(name='fscreen'))
+            scmanager.add_widget(PostScreen(name='post'))
+        
             scmanager.current = 'mainsc'
 
 
@@ -106,6 +129,21 @@ class RegisterScreen(Screen):
         utoken = GlobalData._user_model.get_token()
         GlobalData._user_model.login(uid, uname, utoken)
         self.manager.get_screen('mainsc').update_text_register()
+        
+        '''message screen'''
+        message = MessageScreen("messages")
+        message.on_init()
+
+        '''new message screen'''
+        new_message = ComposeScreen("new_messages")
+        new_message.on_init()
+        
+        '''feeds'''
+        scmanager.add_widget(FeedScreen(name='fscreen'))
+        scmanager.add_widget(PostScreen(name='post'))
+        
+        
+        
         scmanager.current = 'mainsc'
 
 
@@ -131,10 +169,11 @@ class MainScreen(Screen):
         scmanager.current = 'login'
 
 
-scmanager = ScreenManager()
+scmanager = GlobalData._scmanager
 scmanager.add_widget(LoginScreen(name='login'))
 scmanager.add_widget(RegisterScreen(name='register'))
 scmanager.add_widget(MainScreen(name='mainsc'))
+
 
 scmanager.current = 'login'
 
@@ -142,6 +181,7 @@ scmanager.current = 'login'
 class socialApp(App):
 
     def build(self):
+        Clock.schedule_interval(scmanager.update, 1.0/60.0)
         return scmanager
 
 
