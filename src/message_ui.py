@@ -40,7 +40,7 @@ class MessageScreen(Screens):
         self.new_convo.text_color(1, 1, 1, 1)
         
         self.homee = Modify(Button(text="Return Home",
-                                on_press=self.home))
+                            on_press=self.home))
         self.homee.size(1, 0.2)
         self.homee.background_color(0.4, 1, 1, 1)
         self.homee.text_color(1, 1, 1, 1)

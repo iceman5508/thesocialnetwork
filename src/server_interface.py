@@ -24,9 +24,11 @@ class ServerInterface:
     @abc.abstractmethod
     def edit_post(self, uid, token, postid, content):
         pass
+
     @abc.abstractmethod
     def delete_post(self, uid, token, postid):
         pass
+
     @abc.abstractmethod
     def post_id(self,id):
         pass
@@ -36,5 +38,5 @@ class ServerInterface:
         pass
 
     @abc.abstractmethod
-    def rate_post(self):
+    def rate_post(self, postid, token, uid):
         pass
